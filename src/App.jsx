@@ -7,7 +7,6 @@ import Loja from './pages/Loja'
 import PaginaProduto from './pages/PaginaProduto'
 import Carrinho from './pages/Carrinho'
 import Estoque from './pages/Estoque'
-import Esgotados from './pages/Esgotados'
 import { buscarProdutos } from './services/produtos'
 import { buscarClientes } from './services/clientes'
 
@@ -141,16 +140,6 @@ export default function App() {
             <Route
               path="/estoque"
               element={<Estoque produtos={produtos} listaEspera={listaEspera} />}
-            />
-            <Route
-              path="/esgotados"
-              element={
-                <Esgotados
-                  produtos={produtos}
-                  listaEspera={listaEspera}
-                  onRegistrarEspera={registrarNaListaEspera}
-                />
-              }
             />
           </Routes>
         )}

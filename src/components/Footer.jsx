@@ -20,7 +20,6 @@ export default function Footer({ clientes, clienteAtualId, onTrocarCliente }) {
         <div className="footer-coluna">
           <p className="footer-titulo">Área interna</p>
           <Link to="/estoque">Estoque</Link>
-          <Link to="/esgotados">Esgotados</Link>
         </div>
       </div>
 

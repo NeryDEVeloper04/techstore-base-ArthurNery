@@ -117,7 +117,7 @@ export default function PaginaProduto({ produtos, onAdicionar, listaEspera = [],
               {mensagem && <p className="mensagem-avise">{mensagem}</p>}
               {filaProduto.length > 0 && (
                 <p className="contador-avise">
-                  {filaProduto.length} pessoa{filaProduto.length > 1 ? 's' : ''} já está{filaProduto.length > 1 ? 'ão' : ''} esperando este produto.
+                  {filaProduto.length} pessoa{filaProduto.length === 1 ? '' : 's'} já {filaProduto.length === 1 ? 'está' : 'estão'} esperando este produto.
                 </p>
               )}
             </form>
