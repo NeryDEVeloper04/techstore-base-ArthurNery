@@ -35,7 +35,7 @@ export default function App() {
   }
 
   function removerUmaUnidade(produtoId) {
-    // Remove só a primeira unidade encontrada do produto
+    // Remove só a primeira unidade encontrada do produto 
     let removido = false
     setCarrinho(
       carrinho.filter((produto) => {
