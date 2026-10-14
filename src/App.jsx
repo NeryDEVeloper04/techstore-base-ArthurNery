@@ -80,14 +80,18 @@ export default function App() {
   }
 
   function adicionarAoCarrinho(produto) {
-    setCarrinho(carrinho.concat(produto))
+    if (!produto || produto.estoque === 0 || produto.price == null) {
+      return
+    }
+
+    setCarrinho((atual) => atual.concat(produto))
   }
 
   function removerUmaUnidade(produtoId) {
-    // Remove só a primeira unidade encontrada do produto 
+    // Remove só a primeira unidade encontrada do produto
     let removido = false
-    setCarrinho(
-      carrinho.filter((produto) => {
+    setCarrinho((atual) =>
+      atual.filter((produto) => {
         if (!removido && produto.id === produtoId) {
           removido = true
           return false
@@ -97,7 +101,9 @@ export default function App() {
     )
   }
 
-  const clienteAtual = clientes.find((cliente) => cliente.id === clienteAtualId)
+  const clienteAtual = clientes.find(
+    (cliente) => String(cliente.id) === String(clienteAtualId)
+  )
 
   return (
     <div className="app">

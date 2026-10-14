@@ -1,9 +1,10 @@
+
 import { useState } from 'react'
 import { Link, useParams } from 'react-router'
 
 export default function PaginaProduto({ produtos, onAdicionar, listaEspera = [], onRegistrarEspera }) {
   const { id } = useParams()
-  const produto = produtos.find((item) => item.id === id)
+  const produto = produtos.find((item) => String(item.id) === String(id))
   const [formulario, setFormulario] = useState({ nome: '', email: '' })
   const [mensagem, setMensagem] = useState('')
 
@@ -19,9 +20,17 @@ export default function PaginaProduto({ produtos, onAdicionar, listaEspera = [],
   }
 
   const relacionados = produtos
-    .filter((item) => item.category === produto.category && item.id !== produto.id && item.estoque > 0)
+    .filter(
+      (item) =>
+        item.category === produto.category &&
+        String(item.id) !== String(produto.id) &&
+        item.estoque > 0 &&
+        item.price != null
+    )
     .slice(0, 4)
-  const filaProduto = listaEspera.filter((item) => item.produtoId === produto.id)
+  const filaProduto = listaEspera.filter(
+    (item) => String(item.produtoId) === String(produto.id)
+  )
   const esgotado = produto.estoque === 0
 
   function atualizarCampo(event) {
