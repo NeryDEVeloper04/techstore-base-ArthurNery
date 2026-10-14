@@ -15,7 +15,7 @@ export default function Carrinho({ carrinho, produtos, clienteAtual, onAdicionar
   const totalComDesconto = cupomAplicado ? total * (1 - cupomAplicado.desconto) : total
 
   const sugestoes = produtos
-    .filter((produto) => !carrinho.find((item) => item.id === produto.id))
+    .filter((produto) => !carrinho.find((item) => item.id === produto.id) && produto.estoque > 0)
     .slice(0, 3)
 
   function aplicarCupom(evento) {

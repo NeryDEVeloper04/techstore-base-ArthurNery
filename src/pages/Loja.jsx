@@ -15,9 +15,9 @@ export default function Loja({ produtos, onAdicionar }) {
 
   useEffect(() => {
     if (categoria === 'todas') {
-      setProdutosVisiveis(produtos)
+      setProdutosVisiveis(produtos.filter((produto) => produto.estoque > 0))
     } else {
-      setProdutosVisiveis(produtos.filter((produto) => produto.category === categoria))
+      setProdutosVisiveis(produtos.filter((produto) => produto.category === categoria && produto.estoque > 0))
     }
   }, [categoria, produtos])
 
