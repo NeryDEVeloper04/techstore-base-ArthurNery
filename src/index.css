@@ -797,6 +797,13 @@ h2 {
   font-weight: 600;
 }
 
+.resumo-frete {
+  color: var(--cor-frete);
+  padding: var(--espaco-2) 0;
+  border-top: 1px solid var(--cor-borda);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
 .total {
   font-size: 1.25rem;
   font-weight: 800;
