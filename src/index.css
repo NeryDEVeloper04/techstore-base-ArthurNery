@@ -395,7 +395,7 @@ h2 {
   font-size: 0.85rem;
 }
 
-.preco-original + .preco {
+.preco-original+.preco {
   color: var(--cor-destaque);
 }
 
@@ -573,6 +573,57 @@ h2 {
   color: var(--cor-frete);
 }
 
+.detalhe-estoque-esgotado {
+  color: var(--cor-erro);
+}
+
+.form-avise {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-3);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: var(--espaco-5);
+}
+
+.form-avise h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-1);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+}
+
+.campo input {
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-fundo);
+  padding: var(--espaco-3);
+  font: inherit;
+}
+
+.mensagem-avise,
+.contador-avise {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.mensagem-avise {
+  color: var(--cor-frete);
+}
+
+.contador-avise {
+  color: var(--cor-texto-suave);
+}
+
 .detalhe-garantias {
   list-style: none;
   margin: 0;
@@ -622,7 +673,7 @@ h2 {
   padding: var(--espaco-4);
 }
 
-.item-carrinho + .item-carrinho {
+.item-carrinho+.item-carrinho {
   border-top: 1px solid var(--cor-borda);
 }
 
@@ -821,6 +872,38 @@ h2 {
 
 .tabela tbody tr:last-child td {
   border-bottom: none;
+}
+
+.lista-espera {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--espaco-2);
+}
+
+.lista-espera li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  padding: var(--espaco-2) var(--espaco-3);
+}
+
+.lista-espera strong {
+  font-size: 0.8rem;
+}
+
+.lista-espera span {
+  color: var(--cor-texto-suave);
+  font-size: 0.75rem;
+  word-break: break-word;
+}
+
+.texto-suave {
+  color: var(--cor-texto-suave);
 }
 
 /* Rodapé */

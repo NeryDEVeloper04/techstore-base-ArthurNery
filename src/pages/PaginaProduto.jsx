@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { Link, useParams } from 'react-router'
 
-export default function PaginaProduto({ produtos, onAdicionar }) {
+export default function PaginaProduto({ produtos, onAdicionar, listaEspera = [], onRegistrarEspera }) {
   const { id } = useParams()
   const produto = produtos.find((item) => item.id === id)
+  const [formulario, setFormulario] = useState({ nome: '', email: '' })
+  const [mensagem, setMensagem] = useState('')
 
   if (!produto) {
     return (
@@ -18,6 +21,35 @@ export default function PaginaProduto({ produtos, onAdicionar }) {
   const relacionados = produtos
     .filter((item) => item.category === produto.category && item.id !== produto.id && item.estoque > 0)
     .slice(0, 4)
+  const filaProduto = listaEspera.filter((item) => item.produtoId === produto.id)
+  const esgotado = produto.estoque === 0
+
+  function atualizarCampo(event) {
+    const { name, value } = event.target
+    setFormulario((atual) => ({ ...atual, [name]: value }))
+  }
+
+  function registrarInteresse(event) {
+    event.preventDefault()
+
+    if (!onRegistrarEspera) {
+      return
+    }
+
+    const cadastrado = onRegistrarEspera({
+      produtoId: produto.id,
+      nome: formulario.nome,
+      email: formulario.email,
+    })
+
+    if (!cadastrado) {
+      setMensagem('Preencha nome e e-mail válidos ou confira se você já está na lista.')
+      return
+    }
+
+    setMensagem(`Você entrou na lista de espera para ${produto.title}. Vamos avisar quando ele voltar.`)
+    setFormulario({ nome: '', email: '' })
+  }
 
   return (
     <section>
@@ -37,17 +69,59 @@ export default function PaginaProduto({ produtos, onAdicionar }) {
           <p className="card-avaliacao">
             ★ {produto.rating.rate} <span>({produto.rating.count} avaliações)</span>
           </p>
-          <p className="detalhe-preco">{produto.price != null ? `R$ ${produto.price.toFixed(2).replace('.', ',')}` : 'Sem preço'}</p>
+          <p className="detalhe-preco">
+            {produto.price != null ? `R$ ${produto.price.toFixed(2).replace('.', ',')}` : 'Sem preço'}
+          </p>
           <p className="detalhe-descricao">{produto.description}</p>
-          <p className="detalhe-estoque">{produto.estoque} unidades disponíveis</p>
+          <p className={`detalhe-estoque ${esgotado ? 'detalhe-estoque-esgotado' : ''}`}>
+            {esgotado ? 'Produto esgotado' : `${produto.estoque} unidades disponíveis`}
+          </p>
 
           <button
             className="botao botao-grande"
             onClick={() => onAdicionar(produto)}
-            disabled={produto.estoque === 0 || produto.price == null}
+            disabled={esgotado || produto.price == null}
           >
-            Adicionar ao carrinho
+            {esgotado ? 'Produto indisponível' : 'Adicionar ao carrinho'}
           </button>
+
+          {esgotado && (
+            <form className="form-avise" onSubmit={registrarInteresse} noValidate>
+              <h2>Avise-me quando voltar</h2>
+              <label className="campo">
+                <span>Nome</span>
+                <input
+                  type="text"
+                  name="nome"
+                  value={formulario.nome}
+                  onChange={atualizarCampo}
+                  placeholder="Seu nome"
+                />
+              </label>
+
+              <label className="campo">
+                <span>E-mail</span>
+                <input
+                  type="email"
+                  name="email"
+                  value={formulario.email}
+                  onChange={atualizarCampo}
+                  placeholder="seu@email.com"
+                />
+              </label>
+
+              <button type="submit" className="botao botao-secundario">
+                Quero ser avisado
+              </button>
+
+              {mensagem && <p className="mensagem-avise">{mensagem}</p>}
+              {filaProduto.length > 0 && (
+                <p className="contador-avise">
+                  {filaProduto.length} pessoa{filaProduto.length > 1 ? 's' : ''} já está{filaProduto.length > 1 ? 'ão' : ''} esperando este produto.
+                </p>
+              )}
+            </form>
+          )}
 
           <ul className="detalhe-garantias">
             <li>Troca grátis em até 30 dias</li>
@@ -66,7 +140,9 @@ export default function PaginaProduto({ produtos, onAdicionar }) {
               </div>
               <h3 className="card-titulo">{item.title}</h3>
             </Link>
-            <p className="preco">{item.price != null ? `R$ ${Number(item.price).toFixed(2).replace('.', ',')}` : 'Sem preço'}</p>
+            <p className="preco">
+              {item.price != null ? `R$ ${Number(item.price).toFixed(2).replace('.', ',')}` : 'Sem preço'}
+            </p>
             <button className="botao" onClick={() => onAdicionar(item)}>
               Adicionar ao carrinho
             </button>
